@@ -1,0 +1,6 @@
+{
+  "hygge_box_number": 1,
+  "station_id": "0e55ee82-2057-4328-aa3b-16a2e7214177",
+  "charger_point_id": "ev_charger1",
+  "ev_db_path" : "/home/pi/hygge_repo/Hygge-Box-RPI-V1/data/ev_charger.db"
+}
