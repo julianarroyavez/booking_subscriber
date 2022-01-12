@@ -6,13 +6,13 @@
   "topics": [
     {
       "topic": "HYGGEBOX/001/booking",
-      "qos": 0
+      "qos": 1
     },
     {
       "topic": "HYGGEBOX/001/charging-alerts",
-      "qos": 0
+      "qos": 1
     }
   ],
-  "id": "hyggeboxTest"
+  "id": "subscriber_box001"
 
 }
