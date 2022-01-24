@@ -5,8 +5,8 @@ class MQTTClient(object):
     """base mqtt hygge client - server connection"""
 
     def __init__(self, config):
-        self.client = mqtt.Client(client_id=config.id, clean_session=False, userdata={
-            "client": config.id})
+        self.client = mqtt.Client(client_id = config.id, clean_session=False)
+        self.client._client_id
         self.errors = None
         self.config = config
         self.client_id = config.id

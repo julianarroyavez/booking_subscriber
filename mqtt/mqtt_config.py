@@ -12,7 +12,6 @@ class MQTTConfig:
 
     def __init__(self):
         try:
-            print("paso por 1")
             dir_path = os.path.dirname(os.path.realpath(__file__))
             data = Path(f'{dir_path}/mqtt_settings.json').read_text()
             self.errors = None
