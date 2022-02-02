@@ -1,28 +1,54 @@
 import json
 from pathlib import Path
-import os
+
+
+class MqttConfiguration:
+    pass
 
 
 class BookingSubscriberConfiguration:
+    def __get_mqtt_config(self, mqtt_data, subscriber_config):
+        mqtt = MqttConfiguration()
+        mqtt.username = self.__get_property("username", mqtt_data)
+        mqtt.password = self.__get_property("password", mqtt_data)
+        mqtt.id = self.__get_property("subscriber_id", subscriber_config)
+        mqtt.port = self.__get_property("port", mqtt_data)
+        mqtt.host = self.__get_property("host", mqtt_data)
+        mqtt.topics = self.__get_property("topics", subscriber_config)
+        topics = []
 
-    def __get_property(self, property_name):
-        data = self.__data
+        class Topic(object):
+            pass
+
+        for t in mqtt.topics:
+            topic = Topic()
+            topic.qos = t["qos"]
+            topic.topic = t["topic"]
+            topics.append(topic)
+
+            mqtt.topics = topics
+
+        return mqtt
+
+    def __get_property(self, property_name, data=None):
+        if data is None:
+            data = self.__data
         property_value = data[property_name]
         return property_value
 
     def __init__(self):
         try:
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            data = Path(f'{dir_path}/settings.json').read_text()
+            dir_file = "/home/pi/settings.json"
             self.errors = None
+            data = Path(dir_file).read_text()
             self.__data = json.loads(data)
-            self._hygge_box_number = self.__get_property("hygge_box_number")
-            self._station_id = self.__get_property("station_id")
-            self._charger_point_id = self.__get_property("charger_point_id")
-            self._ev_db_path = self.__get_property("ev_db_path")
+            subscriber_config = self.__get_property("booking_subscriber")
+            mqtt_config = self.__get_property("mqtt")
 
-            
-
+            self.mqtt = self.__get_mqtt_config(mqtt_config, subscriber_config)
+            self._station_id = self.__get_property("station_id", subscriber_config)
+            self._charger_point_id = self.__get_property("charger_point_id", subscriber_config)
+            self._ev_db_path = self.__get_property("project_db_path", self.__data)
         except FileNotFoundError:
             print("Configuration file mqtt_settings not found")
             self.errors = 'FileNotFound'
@@ -36,10 +62,6 @@ class BookingSubscriberConfiguration:
             self.errors = 'UnexpectedError'
 
     @property
-    def hygge_box_number(self):
-        return self._hygge_box_number
-
-    @property
     def station_id(self):
         return self._station_id
 
@@ -50,5 +72,3 @@ class BookingSubscriberConfiguration:
     @property
     def ev_db_path(self):
         return self._ev_db_path
-
-        

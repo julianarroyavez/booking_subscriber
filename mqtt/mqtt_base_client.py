@@ -5,8 +5,7 @@ class MQTTClient(object):
     """base mqtt hygge client - server connection"""
 
     def __init__(self, config):
-        self.client = mqtt.Client(client_id = config.id, clean_session=False)
-        self.client._client_id
+        self.client = mqtt.Client(client_id=config.id, clean_session=False)
         self.errors = None
         self.config = config
         self.client_id = config.id
@@ -45,5 +44,5 @@ class MQTTClient(object):
             self.client.loop_forever()
         except KeyboardInterrupt:
             print(
-                f"Received KeyboardInterrupt, disconnecting {self.config.mqtt_client}")
+                f"Received KeyboardInterrupt, disconnecting {self.config.mqtt.id}")
             self.client.disconnect()
