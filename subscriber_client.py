@@ -7,10 +7,11 @@ class BookingSubscriberClient(MQTTClient):
     def on_message(self, _, __, msg):
         try:
             topic = TopicFactory.get_topic_subscriber(msg.topic)
+            logging.info(f'msg received: {str(msg)}')
             topic.do_action(msg, self._db_client, self.config)
 
         except BaseException as err:
-            print(
+            logging.error(
                 f"Unexpected {err}, {type(err)} when getting booking messages")
             logging.error(str(err))
 

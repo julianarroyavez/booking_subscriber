@@ -1,6 +1,12 @@
 import json
+import logging
 from pathlib import Path
 from cryptography.fernet import Fernet
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 class MqttConfiguration:
@@ -57,14 +63,14 @@ class BookingSubscriberConfiguration:
             self._charger_point_id = self.__get_property("charger_point_id", subscriber_config)
             self._ev_db_path = self.__get_property("project_db_path", self.__data)
         except FileNotFoundError:
-            print("Configuration file mqtt_settings not found")
+            logging.error("Configuration file mqtt_settings not found")
             self.errors = 'FileNotFound'
         except KeyError as err:
-            print(
+            logging.error(
                 "the key was not found in the configuration file: " + err.args[0])
             self.errors = "KeyError: " + err.args[0]
         except BaseException as err:
-            print(
+            logging.error(
                 f"Unexpected {err}, {type(err)} when loading the configuration")
             self.errors = 'UnexpectedError'
 

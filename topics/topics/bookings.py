@@ -4,7 +4,6 @@ from types import SimpleNamespace
 from data.ev_charger_db import Otps, iso_time_to_epoch
 from topics.topic_base import TopicBase
 
-logging.basicConfig(level=logging.INFO)
 
 class BookingsTopic(TopicBase):
     def do_action(self, msg, db_client, config):
@@ -36,3 +35,5 @@ class BookingsTopic(TopicBase):
             otp_from_db.end_time = booking.resource.serviceDate + \
                 "T" + booking.resource.slot.endTime + "Z"
             db_client.insert_otp(otp_from_db)
+            logging.info(f'otp {otp_from_db.value} inserted to db, status {otp_from_db.status}')
+

@@ -1,7 +1,7 @@
 import logging
 import paho.mqtt.client as mqtt
 
-logging.basicConfig(level=logging.ERROR)
+
 
 class MQTTClient(object):
     """base mqtt hygge client - server connection"""
@@ -23,7 +23,7 @@ class MQTTClient(object):
             self.client.subscribe(topic.topic, topic.qos)
 
     def _on_connect(self, _, __, flags, rc):
-        logging.info(
+        logging.debug(
             f"Connected {self.client_id}, result code: {str(rc)} {str(flags)}")
 
     def _on_subscribe(self, _, __, mid, granted_qos):
@@ -32,7 +32,7 @@ class MQTTClient(object):
         logging.info(f"Listening for {self.client_id} messages...")
 
     def _on_disconnect(self, _, __, rc):
-        logging.info(f"Disconnected {self.client_id}, result code: {str(rc)}")
+        logging.debug(f"Disconnected {self.client_id}, result code: {str(rc)}")
 
     def _on_message(self, _, __, msg):
         logging.info(
