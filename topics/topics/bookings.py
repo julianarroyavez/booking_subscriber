@@ -26,6 +26,7 @@ class BookingsTopic(TopicBase):
             otp.connector_id = 1  # todo
             otp.charger_point_id = config.charger_point_id
             otp.expiration_date = iso_time_to_epoch(otp.end_time)
+            logging.info(f'otp {otp.value} inserted to db, status {otp.status}')
             db_client.insert_otp(otp)
         else:
             otp_from_db.status = booking.resource.status

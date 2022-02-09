@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from cryptography.fernet import Fernet
 
 
 class MqttConfiguration:
@@ -11,6 +12,12 @@ class BookingSubscriberConfiguration:
         mqtt = MqttConfiguration()
         mqtt.username = self.__get_property("username", mqtt_data)
         mqtt.password = self.__get_property("password", mqtt_data)
+
+        key = "hyggeenergyhyggeenergyhyggeenergy1234123123="
+        fernet = Fernet(key.encode())
+
+        mqtt.password = fernet.decrypt(mqtt.password.encode()).decode()
+
         mqtt.id = self.__get_property("subscriber_id", subscriber_config)
         mqtt.port = self.__get_property("port", mqtt_data)
         mqtt.host = self.__get_property("host", mqtt_data)
