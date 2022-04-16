@@ -12,9 +12,7 @@ class BookingSubscriberClient(MQTTClient):
             topic.do_action(msg, self._db_client, self.config)
 
         except BaseException as err:
-            print(
-                f"Unexpected {err}, {type(err)} when getting booking messages")
-            logging.error(str(err))
+            logging.exception(str(err))
 
     def __init__(self, config: BookingSubscriberConfiguration, ev_db: EvChargerDb):
         super().__init__(config.mqtt)

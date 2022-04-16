@@ -12,7 +12,6 @@ def current_epoch_time():
     dt = datetime.utcnow()
     epoch = datetime.utcfromtimestamp(0)
     delta = dt - epoch
-    print(delta.total_seconds())
     return int(delta.total_seconds())
 
 
