@@ -1,3 +1,5 @@
+from configuration import BookingSubscriberConfiguration
+from data.ev_charger_db import EvChargerDb
 from mqtt.mqtt_base_client import MQTTClient
 import logging
 from topics.topics_factory import TopicFactory
@@ -14,9 +16,9 @@ class BookingSubscriberClient(MQTTClient):
                 f"Unexpected {err}, {type(err)} when getting booking messages")
             logging.error(str(err))
 
-    def __init__(self, mqtt_config, booking_subscriber_configuration, ev_db):
-        super().__init__(mqtt_config)
+    def __init__(self, config: BookingSubscriberConfiguration, ev_db: EvChargerDb):
+        super().__init__(config.mqtt)
         self.client.on_message = self.on_message
-        self.client_id = mqtt_config.id
+        self.client_id = config.mqtt.id
         self._db_client = ev_db
-        self.config = booking_subscriber_configuration
+        self.config = config

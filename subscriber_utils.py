@@ -19,5 +19,3 @@ class JsonMessage:
         self.box_id = box_id
         self.messages = messages
 
-
-urrent_utc = datetime.datetime.utcnow()

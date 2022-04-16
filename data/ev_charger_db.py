@@ -1,12 +1,12 @@
 from datetime import datetime
 from peewee import Model, SqliteDatabase, IntegerField, DateTimeField, TextField
-import dateutil.parser as dp
 
 db = SqliteDatabase(None)
 
 
 def get_current_iso_utc_time():
     return datetime.utcnow().isoformat()
+
 
 def current_epoch_time():
     dt = datetime.utcnow()
@@ -16,15 +16,10 @@ def current_epoch_time():
     return int(delta.total_seconds())
 
 
-
-
 def iso_time_to_epoch(iso_time):
-    # parsed_t = dp.parse(iso_time)
-    # return parsed_t.strftime('%s')
     utc_dt = datetime.strptime(iso_time, '%Y-%m-%dT%H:%M:%SZ')
     timestamp = (utc_dt - datetime(1970, 1, 1)).total_seconds()
     return timestamp
-
 
 
 class BaseModel(Model):
